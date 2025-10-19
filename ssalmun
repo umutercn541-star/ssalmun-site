@@ -1,0 +1,381 @@
+import React, { useState, useEffect } from 'react';
+import { Calendar, MapPin, Mail, ChevronDown } from 'lucide-react';
+
+export default function SSALMUNWebsite() {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [activeSchedule, setActiveSchedule] = useState(null);
+
+  useEffect(() => {
+    const targetDate = new Date('2026-03-27T00:00:00');
+    
+    const timer = setInterval(() => {
+      const now = new Date();
+      const difference = targetDate - now;
+      
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60)
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const teamMembers = [
+    { title: 'Secretary General', name: 'Zeynep Umay BULDUK' },
+    { title: 'Deputy General Secretary', name: 'Çağrı Umut KOÇ' },
+    { title: 'General Director', name: 'Elif Efsa ŞENOL' },
+    { title: 'Deputy General Director', name: 'Umut Ercan NARMAN' }
+  ];
+
+  const scheduleData = [
+    { 
+      date: '27/03/2026', 
+      day: 'Day 1',
+      program: [
+        { time: '08.30 - 10.00', activity: 'Registration & Breakfast' },
+        { time: '10.00 - 11.00', activity: 'Opening Ceremony' },
+        { time: '11.00 - 11.20', activity: 'Break' },
+        { time: '11.20 - 12.20', activity: 'Session 1' },
+        { time: '12.20 - 12.50', activity: 'Break' },
+        { time: '12.50 - 14.30', activity: 'Session 2' },
+        { time: '14.30 - 16.00', activity: 'Lunch Break' },
+        { time: '16.00 - 17.00', activity: 'Session 3' },
+        { time: '17.00 - 17.50', activity: 'Break' },
+        { time: '17.50 - 18.30', activity: 'Session 4' }
+      ]
+    },
+    { 
+      date: '28/03/2026', 
+      day: 'Day 2',
+      program: [
+        { time: '08.30 - 10.00', activity: 'Breakfast' },
+        { time: '10.00 - 11.00', activity: 'Session 5' },
+        { time: '11.10 - 12.00', activity: 'Break' },
+        { time: '12.00 - 13.10', activity: 'Session 6' },
+        { time: '13.10 - 14.30', activity: 'Lunch Break' },
+        { time: '14.30 - 15.40', activity: 'Session 7' },
+        { time: '15.40 - 16.30', activity: 'Break' },
+        { time: '16.30 - 17.40', activity: 'Session 8' },
+        { time: '17.40 - 18.40', activity: 'Dinner Break' },
+        { time: '18.40 - 22.00', activity: 'Social event' }
+      ]
+    },
+    { 
+      date: '29/03/2026', 
+      day: 'Day 3',
+      program: [
+        { time: '08.30 - 10.00', activity: 'Breakfast' },
+        { time: '10.00 - 11.20', activity: 'Session 9' },
+        { time: '11.20 - 12.10', activity: 'Break' },
+        { time: '12.10 - 13.30', activity: 'Session 10' },
+        { time: '13.30 - 15.00', activity: 'Lunch Break' },
+        { time: '15.00 - 16.20', activity: 'Session 11' },
+        { time: '16.20 - 17.10', activity: 'Break' },
+        { time: '17.10 - 18.30', activity: 'Session 12' },
+        { time: '18.30 - 19.00', activity: 'Break' },
+        { time: '19.00 - 20.00', activity: 'Closing Ceremony' }
+      ]
+    }
+  ];
+
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const LOGO_URL = "https://i.imgur.com/gwcUgnA.jpg";
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-slate-900 text-white z-50 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <img 
+              src={LOGO_URL}
+              alt="SSALMUN Logo" 
+              className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
+            />
+            <span className="text-lg sm:text-xl font-bold">SSALMUN'26</span>
+          </div>
+          <div className="hidden md:flex gap-6 lg:gap-8">
+            {['About', 'Schedule', 'Team', 'Registration', 'Contact'].map(item => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item.toLowerCase())}
+                className="hover:text-yellow-400 transition-colors text-sm lg:text-base"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <button 
+            onClick={() => scrollToSection('registration')}
+            className="md:hidden bg-yellow-500 text-slate-900 px-4 py-2 rounded-lg text-sm font-semibold"
+          >
+            Register
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 text-white flex flex-col items-center justify-center pt-20 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center opacity-5">
+          <img 
+            src={LOGO_URL}
+            alt="SSALMUN Logo Background"
+            className="w-[600px] h-[600px] object-contain"
+          />
+        </div>
+        
+        <div className="relative z-10 text-center px-4 sm:px-6">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-4 tracking-tight">SSALMUN'26</h1>
+          <div className="w-24 sm:w-32 h-1 bg-yellow-500 mx-auto mb-6 sm:mb-8"></div>
+          
+          <h2 className="text-2xl sm:text-3xl font-semibold mb-8 sm:mb-12">COUNTDOWN</h2>
+          
+          <div className="flex flex-wrap gap-3 sm:gap-6 justify-center mb-12 sm:mb-16">
+            {[
+              { value: timeLeft.days, label: 'Gün' },
+              { value: timeLeft.hours, label: 'Saat' },
+              { value: timeLeft.minutes, label: 'Dakika' },
+              { value: timeLeft.seconds, label: 'Saniye' }
+            ].map((item, idx) => (
+              <div key={idx} className="bg-slate-800/50 backdrop-blur rounded-lg p-4 sm:p-6 min-w-[80px] sm:min-w-[120px]">
+                <div className="text-3xl sm:text-5xl font-bold text-yellow-400 mb-1 sm:mb-2">{item.value}</div>
+                <div className="text-xs sm:text-sm text-slate-300">{item.label}</div>
+              </div>
+            ))}
+          </div>
+          
+          <h3 className="text-2xl sm:text-3xl font-semibold mb-3 sm:mb-4">Welcome to SSALMUN'26 !</h3>
+          <p className="text-lg sm:text-xl text-slate-300 mb-6 sm:mb-8 max-w-2xl mx-auto">
+            Experience diplomacy, debate, and global leadership at SSALMUN
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center text-slate-300 mb-6 sm:mb-8">
+            <div className="flex items-center gap-2">
+              <Calendar size={18} className="text-yellow-400 sm:w-5 sm:h-5" />
+              <span className="text-sm sm:text-base">March 27th, 28th and 29th</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <MapPin size={18} className="text-yellow-400 sm:w-5 sm:h-5" />
+              <span className="text-sm sm:text-base">Sırasöğütler Anadolu Lisesi</span>
+            </div>
+          </div>
+          
+          <button 
+            onClick={() => scrollToSection('registration')}
+            className="bg-yellow-500 text-slate-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-yellow-400 transition-colors"
+          >
+            Register Now
+          </button>
+        </div>
+        
+        <button 
+          onClick={() => scrollToSection('registration')}
+          className="absolute bottom-4 sm:bottom-8 animate-bounce text-yellow-400"
+        >
+          <ChevronDown size={32} className="sm:w-10 sm:h-10" />
+        </button>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">About SSALMUN'26</h2>
+          <div className="w-24 sm:w-32 h-1 bg-yellow-500 mx-auto mb-8 sm:mb-12"></div>
+          
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 lg:p-12 shadow-sm mb-12 sm:mb-16">
+            <p className="text-base sm:text-lg text-slate-700 mb-4 sm:mb-6">
+              SSALMUN is a Model United Nations conference dedicated to empowering young leaders through diplomacy, discussion, and collaboration.
+            </p>
+            <p className="text-base sm:text-lg text-slate-700 mb-4 sm:mb-6">
+              We believe in fostering open dialogue, cultural exchange, and critical thinking — preparing students to become the decision-makers of tomorrow.
+            </p>
+            <p className="text-base sm:text-lg text-slate-700">
+              Our secretariat and organizing team are passionate MUNers who have participated in numerous national and international conferences.
+            </p>
+          </div>
+          
+          <h3 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Join delegates from around the world</h3>
+          <p className="text-base sm:text-lg text-slate-600">
+            Join delegates from around the world as we discuss critical international issues, develop negotiation skills, and build lifelong friendships.
+          </p>
+        </div>
+      </section>
+
+      {/* Schedule Section */}
+      <section id="schedule" className="py-12 sm:py-16 lg:py-20 bg-slate-900 text-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-3 sm:mb-4">Conference Schedule</h2>
+          <div className="w-24 sm:w-32 h-1 bg-yellow-500 mx-auto mb-8 sm:mb-12"></div>
+          
+          <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+            {scheduleData.map((item, idx) => (
+              <div key={idx} className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700">
+                <div
+                  className="p-4 sm:p-6 cursor-pointer hover:bg-slate-700 transition-colors flex items-center justify-between"
+                  onClick={() => setActiveSchedule(activeSchedule === idx ? null : idx)}
+                >
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                    <span className="bg-yellow-500 text-slate-900 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold text-sm sm:text-base">
+                      {item.date}
+                    </span>
+                    <span className="text-lg sm:text-xl font-semibold">{item.day}</span>
+                  </div>
+                  <ChevronDown 
+                    className={`transition-transform ${activeSchedule === idx ? 'rotate-180' : ''}`}
+                    size={20}
+                  />
+                </div>
+                
+                {activeSchedule === idx && (
+                  <div className="bg-slate-900 p-4 sm:p-6 border-t border-slate-700">
+                    <div className="space-y-3">
+                      {item.program.map((session, sIdx) => (
+                        <div key={sIdx} className="flex items-start gap-3 sm:gap-4 p-3 bg-slate-800/50 rounded-lg">
+                          <span className="text-yellow-400 font-semibold text-sm sm:text-base min-w-[100px] sm:min-w-[120px]">
+                            {session.time}
+                          </span>
+                          <span className="text-slate-200 text-sm sm:text-base">{session.activity}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          <p className="text-center text-slate-400 text-sm sm:text-base">
+            Total of 12 sessions with breaks and meals provided
+          </p>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section id="team" className="py-12 sm:py-16 lg:py-20 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-3 sm:mb-4">Our Team</h2>
+          <div className="w-24 sm:w-32 h-1 bg-yellow-500 mx-auto mb-8 sm:mb-12"></div>
+          
+          {/* Team Photo */}
+          <div className="mb-12 sm:mb-16 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
+            <img 
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'%3E%3Crect fill='%23334155' width='1200' height='800'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='24' fill='%23cbd5e1'%3ESSALMUN Team Photo%3C/text%3E%3C/svg%3E"
+              alt="SSALMUN Team"
+              className="w-full h-auto"
+            />
+          </div>
+          
+          <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
+            {teamMembers.map((member, idx) => (
+              <div key={idx} className="bg-white rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 text-center">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4 sm:mb-6 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-yellow-600 to-yellow-800"></div>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold mb-2">{member.title}</h3>
+                <p className="text-slate-700 font-medium text-sm sm:text-base">{member.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Registration Section */}
+      <section id="registration" className="py-12 sm:py-16 lg:py-20 bg-slate-900 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-3 sm:mb-4">Registration</h2>
+          <div className="w-24 sm:w-32 h-1 bg-yellow-500 mx-auto mb-6 sm:mb-8"></div>
+          
+          <p className="text-lg sm:text-xl text-center mb-8 sm:mb-12">Join the debate. Shape the future.</p>
+          
+          <div className="bg-slate-800 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-12 border border-slate-700">
+            <p className="text-center text-base sm:text-lg mb-8 sm:mb-12">
+              Registration for SSALMUN is now open! Choose your role and be part of a conference that celebrates diplomacy and diversity.
+            </p>
+            
+            <div className="bg-white text-slate-900 rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center max-w-md mx-auto">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-yellow-600 to-yellow-800"></div>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Delegate Application</h3>
+              <p className="text-slate-600 mb-4 sm:mb-6 text-sm sm:text-base">
+                Represent a country and debate global issues at SSALMUN'26
+              </p>
+              <a 
+                href="https://docs.google.com/forms/d/e/1FAIpQLScs0IKgFJ3XYEJk5Wla7ptJCpCoCbEJxpf3D8klPOgfiMWWmA/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-yellow-500 hover:bg-yellow-400 text-slate-900 py-3 sm:py-4 rounded-lg font-semibold transition-colors text-sm sm:text-base"
+              >
+                Apply Now
+              </a>
+            </div>
+            
+            <div className="bg-slate-700 rounded-lg p-4 sm:p-6 mt-6 sm:mt-8 text-center">
+              <p className="text-yellow-400 text-sm sm:text-base">
+                <strong>Important:</strong> <span className="text-white">Complete the application form carefully. Limited spots available for SSALMUN'26!</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-3 sm:mb-4">Contact</h2>
+          <div className="w-24 sm:w-32 h-1 bg-yellow-500 mx-auto mb-8 sm:mb-12"></div>
+          
+          <div className="bg-white border border-slate-200 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-12 shadow-sm text-center">
+            <h3 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8">Have questions? Reach out to us!</h3>
+            
+            <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg">
+                <Mail className="text-yellow-500 flex-shrink-0" size={20} />
+                <span className="break-all">Ssalmodelun2026@gmail.com</span>
+              </div>
+              <div className="flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg">
+                <svg className="text-yellow-500 flex-shrink-0" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                <span>@ssalmodelun</span>
+              </div>
+            </div>
+            
+            <p className="text-slate-600 text-sm sm:text-base">
+              We look forward to welcoming you to SSALMUN'26!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-950 text-white py-6 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <img 
+              src={LOGO_URL}
+              alt="SSALMUN Logo" 
+              className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
+            />
+            <div className="text-center sm:text-left">
+              <div className="font-bold text-sm sm:text-base">SSALMUN'26</div>
+              <div className="text-xs sm:text-sm text-slate-400">Sırasöğütler Anadolu Lisesi</div>
+            </div>
+          </div>
+          <div className="text-center sm:text-right">
+            <div className="text-xs sm:text-sm text-slate-400">© 2026 SSALMUN. All rights reserved.</div>
+            <div className="text-xs sm:text-sm text-slate-500">March 27-29, 2026</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
